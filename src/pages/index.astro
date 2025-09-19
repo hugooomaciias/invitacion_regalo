@@ -13,10 +13,10 @@ import Layout from '../layouts/Layout.astro';
     </p>
 
     <div id="puzzle-app">
-        <input type="text" id="answerInput" placeholder="Escribe la frase aquí" class="border p-2 rounded">
-        <button id="checkButton" class="ml-2 p-2 bg-blue-500 text-white rounded">Comprobar</button>
+        <input type="text" id="answerInput" placeholder="Escribe la pista aquí" class="border p-2 rounded-xl">
+        <button id="checkButton" class="ml-2 p-2 border-2 border-black text-black rounded-xl hover:bg-[#2d3436] hover:text-white cursor-pointer">Comprobar</button>
 
-        <p id="hint" class="mt-4 text-lg font-semibold">Desencripta la pista: ♡☀♥✪♣♦♥ ░ ♣♦♥♣▲♦▲◆✧♡</p>
+        <p id="hint" class="mt-4">Desencripta la pista: ♡☀♥✪♣♦♥ ░ ♣♦♥♣▲♦▲◆✧♡</p>
     </div>
 
     <script>
@@ -64,8 +64,8 @@ import Layout from '../layouts/Layout.astro';
 						// Creamos nuevo input y botón para adivinar el regalo
 						const regaloDiv = document.createElement("div");
 						regaloDiv.innerHTML = `
-							<input type="text" id="regaloInput" placeholder="¿Cuál es tu regalo?" class="border p-2 rounded mt-4">
-							<button id="regaloButton" class="ml-2 p-2 bg-green-500 text-white rounded mt-2">Comprobar regalo</button>
+							<input type="text" id="regaloInput" placeholder="¿Cuál es tu regalo?" class="border p-2 rounded-xl">
+							<button id="regaloButton" class="mt-6 ml-2 p-2 border-2 border-black text-black rounded-xl hover:bg-[#2d3436] hover:text-white cursor-pointer">Comprobar regalo</button>
 							<p id="regaloHint" class="mt-4 text-lg font-semibold"></p>
 						`;
 						const puzzleApp = document.getElementById("puzzle-app");
@@ -84,8 +84,7 @@ import Layout from '../layouts/Layout.astro';
 									const img = document.createElement("img");
 									img.src = "zapatillas.png"; // ruta de la imagen de las zapatillas
 									img.style.maxWidth = "100%"; // nunca se saldrá del contenedor
-									img.style.height = "auto"; 
-									img.className = "my-4";
+									img.style.height = "auto";
 									regaloDiv.appendChild(img);
 									regaloInput.style.display = "none";
 									regaloButton.style.display = "none";
@@ -96,12 +95,9 @@ import Layout from '../layouts/Layout.astro';
 						}
 					}
 				} else {
-					hintEl.textContent="❌ Frase incorrecta, intenta de nuevo.";
+					hintEl.style.whiteSpace = "pre-line";
+					hintEl.textContent += `\n❌ Frase incorrecta, intenta de nuevo.`;
 				}
-			});
-
-			inputEl.addEventListener("input", () => {
-				hintEl.textContent = "";
 			});
 		});
 	</script>
