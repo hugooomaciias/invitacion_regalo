@@ -1,0 +1,109 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+    <h1>🎉 ¡Feliz Cumpleaños, Javi! 🎂</h1>
+
+    <img class="my-6" src="imagen.jpg" alt="Imagen de regalo">
+
+    <p class="mb-6">
+        ✨ Tu regalo está en camino... 🎁 <br>
+        Adivina la frase correcta para recibir nuevas pistas.
+    </p>
+
+    <div id="puzzle-app">
+        <input type="text" id="answerInput" placeholder="Escribe la frase aquí" class="border p-2 rounded">
+        <button id="checkButton" class="ml-2 p-2 bg-blue-500 text-white rounded">Comprobar</button>
+
+        <p id="hint" class="mt-4 text-lg font-semibold">Desencripta la pista: ♡☀♥✪♣♦♥ ░ ♣♦♥♣▲♦▲◆✧♡</p>
+    </div>
+
+    <script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const hints = [
+				"♡☀♥✪♣♦♥ ░ ♣♦♥♣▲♦▲◆✧♡",
+				"✿✧ ░ ☾▲●☃▲✿ ░ ♣♥♦✧ ░ ▲■✩☯▲✿",
+				"▲☘♥✿✩☯♦♥♦✧♡ ░ ♡☀☃♥✿■☀✧♡✧♡",
+				"♡✧✪●♦▲♡ ░ ♠☯♥ ░ ▲■✧✪♣▲✿▲✿"
+			];
+
+			const correctPhrases = [
+				"Siempre preparados",
+				"No hablan, pero actúan",
+				"Aventureros silenciosos",
+				"Sombras que acompañan"
+			];
+
+			const regaloPalabra = "Zapatillas"; // palabra secreta del regalo
+
+			let currentHint = 0;
+
+			const hintEl = document.getElementById("hint");
+			const inputEl = document.getElementById("answerInput") as HTMLInputElement | null;
+			const buttonEl = document.getElementById("checkButton");
+
+			if (!hintEl || !inputEl || !buttonEl) return;
+
+			buttonEl.addEventListener("click", () => {
+				const userAnswer = inputEl.value.trim();
+
+				if(userAnswer === correctPhrases[currentHint]){
+					currentHint++;
+					if(currentHint < hints.length){
+						const pistaAcertada = currentHint;
+						const pistasRestantes = hints.length - currentHint;
+						inputEl.value = "";
+						hintEl.style.whiteSpace = "pre-line";
+						hintEl.textContent =`🎊 ¡Has acertado la pista número ${pistaAcertada}. Te quedan ${pistasRestantes}, ánimo!\nEsta es la siguiente pista:\n${hints[currentHint]}`;
+					} else {
+						hintEl.textContent = "🎊 ¡Has completado todas las pistas!";
+						inputEl.style.display = "none";
+						buttonEl.style.display = "none";
+
+						// Creamos nuevo input y botón para adivinar el regalo
+						const regaloDiv = document.createElement("div");
+						regaloDiv.innerHTML = `
+							<input type="text" id="regaloInput" placeholder="¿Cuál es tu regalo?" class="border p-2 rounded mt-4">
+							<button id="regaloButton" class="ml-2 p-2 bg-green-500 text-white rounded mt-2">Comprobar regalo</button>
+							<p id="regaloHint" class="mt-4 text-lg font-semibold"></p>
+						`;
+						const puzzleApp = document.getElementById("puzzle-app");
+						if (!puzzleApp) return;
+
+						puzzleApp.appendChild(regaloDiv);
+
+						const regaloInput = document.getElementById("regaloInput") as HTMLInputElement | null;
+						const regaloButton = document.getElementById("regaloButton");
+						const regaloHint = document.getElementById("regaloHint");
+
+						if (regaloButton && regaloInput && regaloHint) {
+							regaloButton.addEventListener("click", () => {
+								if(regaloInput.value.trim().toLowerCase() === regaloPalabra.toLowerCase()){
+									regaloHint.textContent = "🎁 ¡Correcto! Este es tu regalo:";
+									const img = document.createElement("img");
+									img.src = "zapatillas.png"; // ruta de la imagen de las zapatillas
+									img.style.maxWidth = "100%"; // nunca se saldrá del contenedor
+									img.style.height = "auto"; 
+									img.className = "my-4";
+									regaloDiv.appendChild(img);
+									regaloInput.style.display = "none";
+									regaloButton.style.display = "none";
+								} else {
+									regaloHint.textContent = "❌ Incorrecto, intenta de nuevo.";
+								}
+							});
+						}
+					}
+				} else {
+					hintEl.textContent="❌ Frase incorrecta, intenta de nuevo.";
+				}
+			});
+
+			inputEl.addEventListener("input", () => {
+				hintEl.textContent = "";
+			});
+		});
+	</script>
+
+</Layout>

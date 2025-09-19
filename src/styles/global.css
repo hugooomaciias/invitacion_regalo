@@ -1,0 +1,13 @@
+@import "tailwindcss";
+h1 {
+    font-size: 2.5rem;
+}
+
+p {
+    font-size: 1.2rem;
+}
+
+img {
+    width: 316.16px;
+    height: 421.54px;
+}
